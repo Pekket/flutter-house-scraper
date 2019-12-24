@@ -11,25 +11,28 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.only(top: 30.0),
-        children: <Widget>[
-          CheckBox(text: 'Zimmo',
-            value: checkedValues.contains("zimmo"),
-            onChange: checkboxChanged,),
-          CheckBox(text: 'Immoscoop',
-            value: checkedValues.contains("immoscoop"),
-            onChange: checkboxChanged,),
-          CheckBox(text: 'Immoweb',
-            value: checkedValues.contains("immoweb"),
-            onChange: checkboxChanged,),
-          CheckBox(text: 'Immovlan',
-            value: checkedValues.contains("immovlan"),
-            onChange: checkboxChanged,),
-          CheckBox(text: 'Tweedehands',
-            value: checkedValues.contains("tweedehands"),
-            onChange: checkboxChanged,),
-        ],
+      child: Container(
+        color: Theme.of(context).primaryColor,
+        child: ListView(
+          padding: EdgeInsets.only(top: 30.0),
+          children: <Widget>[
+            CheckBox(text: 'Zimmo',
+              value: checkedValues.contains("zimmo"),
+              onChange: checkboxChanged,),
+            CheckBox(text: 'Immoscoop',
+              value: checkedValues.contains("immoscoop"),
+              onChange: checkboxChanged,),
+            CheckBox(text: 'Immoweb',
+              value: checkedValues.contains("immoweb"),
+              onChange: checkboxChanged,),
+            CheckBox(text: 'Immovlan',
+              value: checkedValues.contains("immovlan"),
+              onChange: checkboxChanged,),
+            CheckBox(text: 'Tweedehands',
+              value: checkedValues.contains("tweedehands"),
+              onChange: checkboxChanged,),
+          ],
+        ),
       ),
     );
   }
@@ -51,7 +54,7 @@ class CheckBox extends StatelessWidget {
         ),
         value: value,
         checkColor: Colors.white,
-        activeColor: Colors.blueGrey,
+        activeColor: Theme.of(context).accentColor,
         onChanged: (value) {
           onChange(text.toLowerCase());
         }

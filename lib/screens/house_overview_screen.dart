@@ -21,9 +21,9 @@ class _HouseOverviewState extends State<HouseOverview> {
     getData();
   }
 
-  getData() async {
+  Future<void> getData() async {
     NetworkHelper networkHelper =
-        NetworkHelper("http://16b094dc.ngrok.io/api/house");
+        NetworkHelper(kHouseUrl + selectedHouses.join(","));
     List jsonResponse = await networkHelper.getData() as List;
     setState(() {
       houses = jsonResponse.map((m) => House.fromJson(m)).toList();
@@ -31,11 +31,14 @@ class _HouseOverviewState extends State<HouseOverview> {
   }
 
   void onCheckBoxChanged(value) {
-    setState(() {
-      selectedHouses.contains(value)
-          ? selectedHouses.remove(value)
-          : selectedHouses.add(value);
-    },);
+    setState(
+      () {
+        selectedHouses.contains(value)
+            ? selectedHouses.remove(value)
+            : selectedHouses.add(value);
+      },
+    );
+    getData();
   }
 
   @override
@@ -48,13 +51,25 @@ class _HouseOverviewState extends State<HouseOverview> {
         checkedValues: selectedHouses,
         checkboxChanged: onCheckBoxChanged,
       ),
-      body: ListView.builder(
-        itemCount: houses.length,
-        itemBuilder: (BuildContext context, int index) {
-          return new HouseCard(
-            house: houses[index],
-          );
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.refresh),
+        backgroundColor: Theme.of(context).accentColor,
+        onPressed: () {
+          getData();
         },
+      ),
+      body: Container(
+        child: RefreshIndicator(
+          onRefresh: () => getData(),
+          child: ListView.builder(
+            itemCount: houses.length,
+            itemBuilder: (BuildContext context, int index) {
+              return new HouseCard(
+                house: houses[index],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
